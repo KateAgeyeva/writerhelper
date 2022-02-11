@@ -2,11 +2,13 @@ import React from "react";
 import { Button } from 'react-native-elements';
 import { Text, StyleSheet } from "react-native";
 
-const NotesScreen = () => {
+const NotesScreen = ({ navigation }) => {
     return <>
         <Text>Notes List</Text>
         <Text>Delete Note</Text>
-        <Button title='Add a Note' />
+        <Text>Edit Note</Text>
+        <Button title='Add a Note' onPress={() => navigation.navigate('NewNote')} />
+        <Button title='Book' onPress={() => navigation.navigate('Book')} />
     </>
 };
 

@@ -2,11 +2,11 @@ import React from "react";
 import { Button } from 'react-native-elements';
 import { Text, StyleSheet } from "react-native";
 
-const MyBooksScreen = () => {
+const MyBooksScreen = ({ navigation }) => {
     return <>
-        <Button title='Create a Book' />
+        <Button title='Book' onPress={() => navigation.navigate('Book')} />
         <Text>Delete Book</Text>
-        <Button title='Create a Book' />
+        <Button title='Create a Book' onPress={() => navigation.navigate('NewBook')} />
     </>
 };
 
