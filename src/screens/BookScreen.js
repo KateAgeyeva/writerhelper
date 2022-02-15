@@ -11,6 +11,7 @@ const BookScreen = ({ navigation }) => {
         <Text>Description</Text>
         <Text>Characters</Text>
         <Text>Inspiration</Text>
+        <Text>Delete Book</Text>
         <Button title='My Books' onPress={() => navigation.navigate('MyBooks')} />
     </>
 };

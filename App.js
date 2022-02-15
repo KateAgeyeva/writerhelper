@@ -16,6 +16,8 @@ import NewNoteScreen from './src/screens/NewNoteScreen';
 import NotesScreen from './src/screens/NotesScreen';
 import SignupScreen from "./src/screens/SignupScreen";
 import SigninScreen from "./src/screens/SigninScreen";
+import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
+import SignoutScreen from './src/screens/SignoutScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,11 +25,13 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen name="Signin" component={SigninScreen} />
-        <Stack.Screen name="MyBooks" component={MyBooksScreen} />
+        <Stack.Screen name="ResolveAuth" component={ResolveAuthScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Signout" component={SignoutScreen} />
+        <Stack.Screen name="MyBooks" component={MyBooksScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NewBook" component={NewBookScreen} />
-        <Stack.Screen name="Book" component={BookScreen} />
+        <Stack.Screen name="Book" component={BookScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ChapterName" component={ChapterNameScreen} />
         <Stack.Screen name="NewChapter" component={NewChapterScreen} />
         <Stack.Screen name="Notes" component={NotesScreen} />
