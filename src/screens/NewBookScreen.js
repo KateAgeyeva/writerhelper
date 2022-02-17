@@ -19,7 +19,7 @@ const NewBookScreen = ({ navigation }) => {
           characters,
           inspiration,
         });
-        navigation.navigate("Book");
+        navigation.navigate("MyBooks");
       };
 
     return (
