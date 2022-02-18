@@ -10,10 +10,13 @@ export const chapterSlice = createSlice({
       state = action.payload;
       return state;
     },
+    delete_chapter: (state, action) => {
+      state = state.filter((chapter) => chapter._id !== action.payload);
+    },
   },
 });
 
-export const { fetch_chapters } = chapterSlice.actions;
+export const { fetch_chapters, delete_chapter } = chapterSlice.actions;
 
 
 export default chapterSlice.reducer;

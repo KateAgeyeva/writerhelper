@@ -8,7 +8,6 @@ const NotesScreen = ({ navigation }) => {
         <Text>Delete Note</Text>
         <Text>Edit Note</Text>
         <Button title='Add a Note' onPress={() => navigation.navigate('NewNote')} />
-        <Button title='Book' onPress={() => navigation.navigate('Book')} />
     </>
 };
 

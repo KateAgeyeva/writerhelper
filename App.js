@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import store from './src/store/index';
 import { Provider } from 'react-redux';
+import { useSelector } from "react-redux";
 
 import BookScreen from './src/screens/BookScreen';
 import ChapterNameScreen from './src/screens/ChapterNameScreen';
@@ -32,7 +33,7 @@ const App = () => {
         <Stack.Screen name="MyBooks" component={MyBooksScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NewBook" component={NewBookScreen} />
         <Stack.Screen name="Book" component={BookScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ChapterName" component={ChapterNameScreen} />
+        <Stack.Screen name="ChapterName" component={ChapterNameScreen} options={{ title: 'Edit Chapter' }} />
         <Stack.Screen name="NewChapter" component={NewChapterScreen} />
         <Stack.Screen name="Notes" component={NotesScreen} />
         <Stack.Screen name="NewNote" component={NewNoteScreen} />

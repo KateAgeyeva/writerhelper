@@ -1,6 +1,8 @@
+//Loading chapters spinner
+//Delete icon on a chpter
 import React, { useEffect, useState } from "react";
 import { Text, Button, Input } from 'react-native-elements';
-import { StyleSheet, TouchableOpacity, View, FlatList } from "react-native";
+import { StyleSheet, TouchableOpacity, View, FlatList, Alert } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem } from "react-native-elements";
 
@@ -8,7 +10,7 @@ import { delete_book, fetch_books } from '../store/bookSlice';
 import bookApi from '../api/index';
 import Spacer from "../components/Spacer";
 import NavLink from "../components/NavLink";
-import { fetch_chapters } from "../store/chaptersSlice";
+import { fetch_chapters, delete_chapter } from "../store/chaptersSlice";
 
 const BookScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,11 +26,50 @@ const BookScreen = ({ navigation, route }) => {
   const characters = book.characters;
   const inspiration = book.inspiration;
   const id = book._id;
-  const chapters = book.chapters
 
-  const deleteBook = async (id) => {
+  const deleteChapterAlert = (chapterId) => {
+    Alert.alert (
+      'Delete',
+      'Are you sure you want to delete this chapter?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancelled'),
+          style: 'cancel'
+        },
+        {
+          text: 'Yes',
+          onPress: () => deleteChapter(chapterId)
+        }
+      ]
+    )
+  }
+
+  const deleteChapter = async (chapterId) => {
+    await bookApi.delete(`/books/${id}/chapters/${chapterId}`);
+    dispatch(delete_chapter(chapterId));
+  };
+
+  const deleteBookAlert = () => {
+    Alert.alert (
+      'Delete',
+      'Are you sure you want to delete this book?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancelled'),
+          style: 'cancel'
+        },
+        {
+          text: 'Yes',
+          onPress: () => deleteBook()
+        }
+      ]
+    )
+  }
+
+  const deleteBook = async () => {
     await bookApi.delete(`/books/${id}`);
-    dispatch(delete_book(id));
     navigation.navigate('MyBooks');
   };
 
@@ -67,7 +108,9 @@ const BookScreen = ({ navigation, route }) => {
             >
               <ListItem>
                 <ListItem.Content>
-                  <ListItem.Title>{item.chapterName}</ListItem.Title>
+                  <ListItem.Title>{item.chapterName}
+                  <TouchableOpacity onPress={() => deleteChapterAlert(item._id)}><Text>Delete</Text></TouchableOpacity>
+                  </ListItem.Title>
                 </ListItem.Content>
                 <ListItem.Chevron />
               </ListItem>
@@ -82,9 +125,9 @@ const BookScreen = ({ navigation, route }) => {
           onPress={() => navigation.navigate("NewChapter", { _id: id })}
         />
       </Spacer>
-      <Button title="Notes" onPress={() => navigation.navigate("Notes")} />
+      <Button title="Notes" onPress={() => navigation.navigate("Notes", { _id: id })} />
       <Spacer />
-      <TouchableOpacity onPress={() => deleteBook(id)}>
+      <TouchableOpacity onPress={deleteBookAlert}>
         <Text style={{ color: 'blue' }}>{`Delete ${name}`}</Text>
       </TouchableOpacity>
     </View>

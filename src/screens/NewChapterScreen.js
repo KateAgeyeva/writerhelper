@@ -21,7 +21,7 @@ const NewChapterScreen = ({ navigation, route }) => {
     const id = book._id;
 
     const createChapter = async (id) => {
-        await bookApi.post(`/books/${id}`, {
+        await bookApi.post(`/books/${id}/chapters`, {
           chapterName,
           chapterDescription,
           chapterText
