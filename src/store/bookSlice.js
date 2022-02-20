@@ -13,7 +13,7 @@ export const bookSlice = createSlice({
   },
 });
 
-export const { fetch_books, delete_book } = bookSlice.actions;
+export const { fetch_books } = bookSlice.actions;
 
 
 export default bookSlice.reducer;

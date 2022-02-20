@@ -6,7 +6,6 @@ import { StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import bookApi from '../api/index';
-import { add_chapter } from '../store/bookSlice';
 
 const NewChapterScreen = ({ navigation, route }) => {
     const [chapterName, setChapterName] = useState('');

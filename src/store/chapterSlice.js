@@ -11,8 +11,9 @@ export const chapterSlice = createSlice({
       return state;
     },
     delete_chapter: (state, action) => {
-      state = state.filter((chapter) => chapter._id !== action.payload);
-    },
+      state = state.filter((t) => t._id !== action.payload)
+      return state;
+    }
   },
 });
 

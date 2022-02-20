@@ -1,12 +1,12 @@
 //Forgot password - send by email
 //Share or save chapters-book
+// update ui BookScreen when a chapter is deleted
 
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import store from './src/store/index';
 import { Provider } from 'react-redux';
-import { useSelector } from "react-redux";
 
 import BookScreen from './src/screens/BookScreen';
 import ChapterNameScreen from './src/screens/ChapterNameScreen';
