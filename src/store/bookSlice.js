@@ -9,7 +9,11 @@ export const bookSlice = createSlice({
     fetch_books: (state, action) => {
       state = action.payload;
       return state;
-    }
+    },
+    // edit_book (state, action) {
+    //   state = [ ...state.filter((b) => b._id !== action.payload._id), action.payload ];
+    //   return state;
+    // }
   },
 });
 

@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Spacer from '../components/Spacer';
 import { signout } from "../store/authSlice";
+import SubmitBtn from "../components/SubmitBtn";
 
 const SignoutScreen = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const SignoutScreen = ({ navigation }) => {
     return (
       <SafeAreaView forceInset={{ top: 'always' }}>
             <Spacer>
-            <Button title='Sign Out' onPress={logout} />
+            <SubmitBtn btnText='Sign Out' onSubmit={logout} />
         </Spacer>
       </SafeAreaView>
     );

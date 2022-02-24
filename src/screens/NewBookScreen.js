@@ -1,10 +1,15 @@
 //useReducer insted of useState;
 import React, { useState } from "react";
 import { Text, Button, Input } from 'react-native-elements';
-import { StyleSheet } from "react-native";
+import { StyleSheet, View
+  // KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard  
+} from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import bookApi from '../api/index';
 import Spacer from '../components/Spacer';
+import SubmitBtn from "../components/SubmitBtn";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const NewBookScreen = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -23,37 +28,49 @@ const NewBookScreen = ({ navigation }) => {
       };
 
     return (
-        <>
-          <Spacer />
-          <Input
-            label="Name"
-            value={name}
-            autoCorrect={false}
-            onChangeText={(text) => setName(text)}
-          />
-          <Input
-            label="Description"
-            value={bookDescription}
-            autoCorrect={false}
-            onChangeText={(text) => setBookDescription(text)}
-          />
-          <Input
-            label="Characters"
-            value={characters}
-            autoCorrect={false}
-            onChangeText={(text) => setCharacters(text)}
-          />
-          <Input
-            label="Inspiration"
-            value={inspiration}
-            autoCorrect={false}
-            onChangeText={(text) => setInspiration(text)}
-          />
-          <Button
-            title="Create"
-            onPress={createBook}
-          />
-        </>
+            <KeyboardAwareScrollView>
+              <SafeAreaProvider>
+                <Spacer />
+                <Input
+                  label="Name"
+                  value={name}
+                  autoCorrect={false}
+                  onChangeText={(text) => setName(text)}
+                  multiline
+                />
+                <Input
+                  label="Description"
+                  value={bookDescription}
+                  onChangeText={(text) => setBookDescription(text)}
+                  multiline
+                />
+                <Input
+                  label="Characters"
+                  value={characters}
+                  autoCorrect={false}
+                  onChangeText={(text) => setCharacters(text)}
+                  multiline
+                />
+                <Input
+                  label="Inspiration"
+                  value={inspiration}
+                  onChangeText={(text) => setInspiration(text)}
+                  multiline
+                />
+                <SubmitBtn 
+                  btnText='Create'
+                  onSubmit={createBook}
+                />
+                {/* <Button
+                  buttonStyle={{ backgroundColor: "#18191A" }}
+                  titleStyle={{ color: 'orange' }}
+                  title="Create"
+                  onPress={createBook}
+                /> */}
+              </SafeAreaProvider>
+            </KeyboardAwareScrollView>
+        //   </TouchableWithoutFeedback>
+        // </KeyboardAvoidingView>
       );
 };
 

@@ -1,18 +1,27 @@
 //Loading chapters spinner
 //Delete icon on a chpter
+//Create components to shread the amount of code here (for ex. Edit inputs)
+//Book fields update with redux
+//Fix ListItem and ScrollView
 import React, { useEffect, useState } from "react";
 import { Text, Button } from 'react-native-elements';
-import { StyleSheet, TouchableOpacity, View, FlatList, Alert } from "react-native";
+import { StyleSheet, TouchableOpacity, View, FlatList, Alert, LogBox  } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
-import { ListItem } from "react-native-elements";
+import { ListItem, Input } from "react-native-elements";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import bookApi from '../api/index';
 import Spacer from "../components/Spacer";
 import NavLink from "../components/NavLink";
 import { fetch_chapters, delete_chapter } from "../store/chapterSlice";
+import SubmitBtn from "../components/SubmitBtn";
+import CancelBtn from "../components/CancelBtn";
 
 const BookScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [editBook, setEditBook] = useState(false);
 
   const state = useSelector((state) => state.book);
   const stateCh = useSelector((state) => state.chapter);
@@ -25,6 +34,11 @@ const BookScreen = ({ navigation, route }) => {
   const characters = book.characters;
   const inspiration = book.inspiration;
   const id = book._id;
+
+  const [editName, setEditName] = useState(name);
+  const [editDescription, setEditDescription] = useState(description);
+  const [editCharacters, setEditCharacters] = useState(characters);
+  const [editInspiration, setEditInspiration] = useState(inspiration);
 
   const fetchChapters = async () => {
     const response = await bookApi.get(`/books/${id}/chapters`);
@@ -42,6 +56,21 @@ const BookScreen = ({ navigation, route }) => {
     dispatch(delete_chapter(chapterId));
     setIsLoading(true);
   };
+
+  const updateBook = async (id) => {
+    await bookApi.post(`/books/${id}`, {
+      name: editName,
+      bookDescription: editDescription,
+      characters: editCharacters,
+      inspiration: editInspiration,
+    });
+    alert('Changes saved')
+    navigation.navigate("MyBooks");
+  };
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+}, []);
 
   useEffect(() => {
     const booklist = navigation.addListener('focus', () => {
@@ -89,53 +118,162 @@ const BookScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View>
-      <Spacer>
-        <NavLink text='My Books' name='MyBooks' />
-      </Spacer>
-      <Text>{name}</Text>
-      <Text>{description}</Text>
-      <Text>{characters}</Text>
-      <Text>{inspiration}</Text>
-      <Spacer>
-      <Text>Chapters</Text>
-      {isLoading && <FlatList
-        data={stateCh}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ChapterName", { _id: item._id })}
-            >
-              <ListItem>
-                <ListItem.Content>
-                  <ListItem.Title>{item.chapterName}
-                  <TouchableOpacity onPress={() => deleteChapterAlert(item._id)}><Text>Delete</Text></TouchableOpacity>
-                  </ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron />
-              </ListItem>
-            </TouchableOpacity>
-          );
-        }}
-      />}
-      </Spacer>
-      <Spacer>
-        <Button
-          title="Add a Chapter"
-          onPress={() => navigation.navigate("NewChapter", { _id: id })}
+    <KeyboardAwareScrollView>
+      <SafeAreaProvider>
+        {editBook && (
+          <View>
+            <Input
+              label="Name"
+              value={editName}
+              autoCorrect={false}
+              onChangeText={setEditName}
+              multiline
+            />
+            <Input
+              label="Description"
+              value={editDescription}
+              onChangeText={setEditDescription}
+              multiline
+            />
+            <Input
+              label="Characters"
+              value={editCharacters}
+              autoCorrect={false}
+              onChangeText={setEditCharacters}
+              multiline
+            />
+            <Input
+              label="Inspiration"
+              value={editInspiration}
+              onChangeText={setEditInspiration}
+              multiline
+            />
+            <View style={styles.buttons}>
+              <SubmitBtn btnText="Save" onSubmit={() => updateBook(id)} />
+              <CancelBtn btnText="Cancel" onSubmit={() => setEditBook(false)} />
+            </View>
+          </View>
+        )}
+        {!editBook && (
+          <View style={styles.bookFields}>
+            <MaterialCommunityIcons
+              style={styles.bookName}
+              name="book-open-page-variant"
+              size={24}
+              color="black"
+            />
+            <Text style={styles.bookName} h4>
+              {name}
+            </Text>
+            <Spacer />
+            <Text style={styles.bookLableFont}>Description:</Text>
+            <Text style={styles.bookFieldsFont}>{description}</Text>
+            <Text style={styles.bookLableFont}>Characters:</Text>
+            <Text style={styles.bookFieldsFont}>{characters}</Text>
+            <Text style={styles.bookLableFont}>Inspiration:</Text>
+            <Text style={styles.bookFieldsFont}>{inspiration}</Text>
+            <SubmitBtn btnText="Edit" onSubmit={() => setEditBook(true)} />
+          </View>
+        )}
+        <Spacer />
+        <View style={styles.chapters}>
+          <Text h4>Chapters:</Text>
+          <TouchableOpacity
+            style={styles.addChapter}
+            onPress={() => navigation.navigate("NewChapter", { _id: id })}
+          >
+            <MaterialCommunityIcons
+              name="text-box-plus"
+              size={40}
+              color="black"
+            />
+            <Text>Add Chapter</Text>
+          </TouchableOpacity>
+        </View>
+        {isLoading && (
+          <FlatList
+            data={stateCh}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ChapterName", {
+                      _id: item._id,
+                      bookId: _id,
+                    })
+                  }
+                >
+                  <ListItem bottomDivider>
+                    <ListItem.Content>
+                      <ListItem.Title>{item.chapterName}</ListItem.Title>
+                    </ListItem.Content>
+                    <TouchableOpacity
+                      onPress={() => deleteChapterAlert(item._id)}
+                    >
+                      <MaterialCommunityIcons
+                        name="trash-can-outline"
+                        size={24}
+                        color="black"
+                      />
+                    </TouchableOpacity>
+                  </ListItem>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        )}
+
+        <Spacer />
+        <SubmitBtn
+          btnText="Notes"
+          onSubmit={() => navigation.navigate("Notes", { _id: id })}
         />
-      </Spacer>
-      <Button title="Notes" onPress={() => navigation.navigate("Notes", { _id: id })} />
-      <Spacer />
-      <TouchableOpacity onPress={() => deleteBookAlert(id)}>
-        <Text style={{ color: 'blue' }}>{`Delete ${name}`}</Text>
-      </TouchableOpacity>
-    </View>
+        <Spacer />
+        <TouchableOpacity onPress={() => deleteBookAlert(id)}>
+          <Text
+            style={{ color: "blue", alignSelf: "center" }}
+          >{`Delete "${name}"`}</Text>
+        </TouchableOpacity>
+        <Spacer />
+      </SafeAreaProvider>
+    </KeyboardAwareScrollView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bookFields: {
+    paddingHorizontal: 10,
+    flexDirection: 'column',
+  },
+  bookName: {
+    alignSelf: 'center',
+    textAlign: 'center'
+  },
+  bookFieldsFont: {
+    fontSize: 18,
+    marginBottom: 8
+  },
+  bookLableFont: {
+    fontStyle: 'italic'
+  },
+  // buttons: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-around',
+  //   marginHorizontal: 50
+  // },
+  chapters: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 15,
+    marginBottom: 10,
+  },
+  addChapter: {
+    flexDirection: 'column',
+    alignItems: 'center'
+  }
+});
 
 export default BookScreen;
 

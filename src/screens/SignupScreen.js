@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import AuthForm from "../components/AuthForm";
 import NavLink from '../components/NavLink';
@@ -40,15 +41,17 @@ const SignupScreen = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <AuthForm
-        headerText="Sign Up for Tracker"
-        errorMessage={state}
-        submitButtonText="Sign Up"
-        onSubmit={signup}
-      />
-      <NavLink name="Signin" text="Already have an account? Sign in instead" />
-    </View>
+    <KeyboardAwareScrollView>
+      <View style={styles.container}>
+        <AuthForm
+          headerText="Sign Up to Write"
+          errorMessage={state}
+          submitButtonText="Sign Up"
+          onSubmit={signup}
+        />
+        <NavLink name="Signin" text="Already have an account? Sign in instead" />
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -56,8 +59,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginBottom: 200
-  }
+    marginBottom: 200,
+    marginTop: 30,
+  },
 });
 
 export default SignupScreen;

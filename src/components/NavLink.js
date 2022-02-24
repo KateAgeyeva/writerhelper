@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 const NavLink = ({ text, name }) => {
     const navigation = useNavigation();
     return (
-      <TouchableOpacity onPress={() => navigation.navigate(name)}>
+      <TouchableOpacity style={styles.container} onPress={() => navigation.navigate(name)}>
         <Spacer>
           <Text style={styles.link}>
             {text}
@@ -19,6 +19,9 @@ const NavLink = ({ text, name }) => {
 const styles = StyleSheet.create({
     link: {
         color: 'blue'
+      },
+      container: {
+        alignItems: 'center'
       }
 });
 

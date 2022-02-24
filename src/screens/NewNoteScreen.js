@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { Text, Button, Input } from 'react-native-elements';
 import { StyleSheet } from "react-native";
 import { useSelector } from 'react-redux';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import bookApi from '../api/index';
+import SubmitBtn from "../components/SubmitBtn";
+import Spacer from "../components/Spacer";
 
 
 const NewNoteScreen = ({ navigation, route }) => {
@@ -22,10 +26,20 @@ const NewNoteScreen = ({ navigation, route }) => {
         navigation.navigate("Notes", { _id: id });
     }
 
-    return <>
-        <Input label='Text' autoCorrect={false} value={note} onChangeText={(text) => setNote(text)} />
-        <Button title='Save' onPress={() => createNote(id)} />
-    </>
+    return (
+      <KeyboardAwareScrollView>
+          <SafeAreaProvider>
+            <Spacer />
+            <Input
+              label="Text"
+              value={note}
+              onChangeText={(text) => setNote(text)}
+              multiline
+            />
+            <SubmitBtn btnText="Save" onSubmit={() => createNote(id)} />
+          </SafeAreaProvider>
+      </KeyboardAwareScrollView>
+    );
 };
 
 const styles = StyleSheet.create({});

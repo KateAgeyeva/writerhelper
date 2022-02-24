@@ -19,6 +19,7 @@ import SignupScreen from "./src/screens/SignupScreen";
 import SigninScreen from "./src/screens/SigninScreen";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import SignoutScreen from './src/screens/SignoutScreen';
+import EditNoteScreen from './src/screens/EditNoteScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,14 +30,15 @@ const App = () => {
         <Stack.Screen name="ResolveAuth" component={ResolveAuthScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Signout" component={SignoutScreen} />
+        <Stack.Screen name="Signout" component={SignoutScreen} options={{ title: 'Account' }} />
         <Stack.Screen name="MyBooks" component={MyBooksScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="NewBook" component={NewBookScreen} />
-        <Stack.Screen name="Book" component={BookScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ChapterName" component={ChapterNameScreen} options={{ title: 'Edit Chapter' }} />
-        <Stack.Screen name="NewChapter" component={NewChapterScreen} />
+        <Stack.Screen name="NewBook" component={NewBookScreen} options={{ title: 'New Book' }} />
+        <Stack.Screen name="Book" component={BookScreen} options={{ title: '' }} />
+        <Stack.Screen name="ChapterName" component={ChapterNameScreen} options={{ title: '' }} />
+        <Stack.Screen name="NewChapter" component={NewChapterScreen} options={{ title: 'New Chapter' }} />
         <Stack.Screen name="Notes" component={NotesScreen} />
-        <Stack.Screen name="NewNote" component={NewNoteScreen} />
+        <Stack.Screen name="NewNote" component={NewNoteScreen} options={{ title: 'New Note' }} />
+        <Stack.Screen name="EditNote" component={EditNoteScreen} options={{ title: 'Edit Note' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
