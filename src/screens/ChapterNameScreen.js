@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Text, Button, Input } from 'react-native-elements';
+import { Text, Input } from 'react-native-elements';
 import { StyleSheet, View } from "react-native";
 import { useSelector } from 'react-redux';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Spacer from "../components/Spacer";
 import bookApi from '../api/index';
 import SubmitBtn from "../components/SubmitBtn";
 import CancelBtn from "../components/CancelBtn";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import ChapterInput from "../components/ChapterInput";
 
 const ChapterNameScreen = ({ navigation, route }) => {
   const state = useSelector((state) => state.chapter);
@@ -39,26 +40,11 @@ const ChapterNameScreen = ({ navigation, route }) => {
       <Spacer />
       {editChapter && (
         <View>
-          <Input
-            label="Name"
-            value={editName}
-            autoCorrect={false}
-            onChangeText={setEditName}
-            multiline
+          <ChapterInput labelName='Name' labelDescription='Description' labelText='Characters' nameText={editName} descriptionText={editDescription} textText={editText} nameChange={setEditName} descriptionChange={setEditDescription} textChange={setEditText} />
+          <SubmitBtn
+            btnText="Save"
+            onSubmit={() => updateChapter(bookId, _id)}
           />
-          <Input
-            label="Description"
-            value={editDescription}
-            onChangeText={setEditDescription}
-            multiline
-          />
-          <Input
-            label="Text"
-            value={editText}
-            onChangeText={setEditText}
-            multiline
-          />
-          <SubmitBtn btnText="Save" onSubmit={() => updateChapter(bookId, _id)} />
           <CancelBtn btnText="Cancel" onSubmit={() => setEditChapter(false)} />
         </View>
       )}
@@ -73,10 +59,7 @@ const ChapterNameScreen = ({ navigation, route }) => {
           <Text style={styles.chapterLableFont}>Text:</Text>
           <Text style={styles.chapterFieldsFont}>{text}</Text>
           <Spacer />
-          <SubmitBtn
-            btnText="Edit"
-            onSubmit={() => setEditChapter(true)}
-          />
+          <SubmitBtn btnText="Edit" onSubmit={() => setEditChapter(true)} />
         </View>
       )}
     </SafeAreaProvider>

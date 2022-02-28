@@ -1,15 +1,16 @@
 //useReducer insted of useState;
 import React, { useState } from "react";
-import { Text, Button, Input } from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import { StyleSheet, View
   // KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard  
 } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import bookApi from '../api/index';
 import Spacer from '../components/Spacer';
 import SubmitBtn from "../components/SubmitBtn";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import BookInput from "../components/BookInput";
 
 const NewBookScreen = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -31,42 +32,11 @@ const NewBookScreen = ({ navigation }) => {
             <KeyboardAwareScrollView>
               <SafeAreaProvider>
                 <Spacer />
-                <Input
-                  label="Name"
-                  value={name}
-                  autoCorrect={false}
-                  onChangeText={(text) => setName(text)}
-                  multiline
-                />
-                <Input
-                  label="Description"
-                  value={bookDescription}
-                  onChangeText={(text) => setBookDescription(text)}
-                  multiline
-                />
-                <Input
-                  label="Characters"
-                  value={characters}
-                  autoCorrect={false}
-                  onChangeText={(text) => setCharacters(text)}
-                  multiline
-                />
-                <Input
-                  label="Inspiration"
-                  value={inspiration}
-                  onChangeText={(text) => setInspiration(text)}
-                  multiline
-                />
+                <BookInput labelName='Name' labelDescription='Description' labelCharacters='Characters' labelInspiration='Inspiration' nameText={name} descriptionText={bookDescription} charactersText={characters} inspirationText={inspiration} nameChange={(text) => setName(text)} descriptionChange={(text) => setBookDescription(text)} charactersChange={(text) => setCharacters(text)} inspirationChange={(text) => setInspiration(text)} />
                 <SubmitBtn 
                   btnText='Create'
                   onSubmit={createBook}
                 />
-                {/* <Button
-                  buttonStyle={{ backgroundColor: "#18191A" }}
-                  titleStyle={{ color: 'orange' }}
-                  title="Create"
-                  onPress={createBook}
-                /> */}
               </SafeAreaProvider>
             </KeyboardAwareScrollView>
         //   </TouchableWithoutFeedback>

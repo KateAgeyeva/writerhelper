@@ -1,11 +1,8 @@
 //Loading chapters spinner
-//Delete icon on a chpter
-//Create components to shread the amount of code here (for ex. Edit inputs)
-//Book fields update with redux
 //Fix ListItem and ScrollView
 import React, { useEffect, useState } from "react";
-import { Text, Button } from 'react-native-elements';
-import { StyleSheet, TouchableOpacity, View, FlatList, Alert, LogBox  } from "react-native";
+import { Text } from 'react-native-elements';
+import { StyleSheet, TouchableOpacity, View, FlatList, Alert, LogBox, Platform  } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Input } from "react-native-elements";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,10 +11,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import bookApi from '../api/index';
 import Spacer from "../components/Spacer";
-import NavLink from "../components/NavLink";
 import { fetch_chapters, delete_chapter } from "../store/chapterSlice";
 import SubmitBtn from "../components/SubmitBtn";
 import CancelBtn from "../components/CancelBtn";
+import BookInput from "../components/BookInput";
 
 const BookScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -122,36 +119,9 @@ const BookScreen = ({ navigation, route }) => {
       <SafeAreaProvider>
         {editBook && (
           <View>
-            <Input
-              label="Name"
-              value={editName}
-              autoCorrect={false}
-              onChangeText={setEditName}
-              multiline
-            />
-            <Input
-              label="Description"
-              value={editDescription}
-              onChangeText={setEditDescription}
-              multiline
-            />
-            <Input
-              label="Characters"
-              value={editCharacters}
-              autoCorrect={false}
-              onChangeText={setEditCharacters}
-              multiline
-            />
-            <Input
-              label="Inspiration"
-              value={editInspiration}
-              onChangeText={setEditInspiration}
-              multiline
-            />
-            <View style={styles.buttons}>
+            <BookInput labelName='Name' labelDescription='Description' labelCharacters='Characters' labelInspiration='Inspiration' nameText={editName} descriptionText={editDescription} charactersText={editCharacters} inspirationText={editInspiration} nameChange={setEditName} descriptionChange={setEditDescription} charactersChange={setEditCharacters} inspirationChange={setEditInspiration} />
               <SubmitBtn btnText="Save" onSubmit={() => updateBook(id)} />
               <CancelBtn btnText="Cancel" onSubmit={() => setEditBook(false)} />
-            </View>
           </View>
         )}
         {!editBook && (
@@ -223,7 +193,6 @@ const BookScreen = ({ navigation, route }) => {
             }}
           />
         )}
-
         <Spacer />
         <SubmitBtn
           btnText="Notes"
@@ -257,11 +226,6 @@ const styles = StyleSheet.create({
   bookLableFont: {
     fontStyle: 'italic'
   },
-  // buttons: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-around',
-  //   marginHorizontal: 50
-  // },
   chapters: {
     flexDirection: 'row',
     justifyContent: 'space-between',

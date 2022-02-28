@@ -1,7 +1,6 @@
-//CREATE A SINGLE COMPONENT FOR MYBOOKS AND NOTES!
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, FlatList, TouchableOpacity, View } from "react-native";
-import { ListItem, Header, HeaderProps } from "react-native-elements";
+import { ListItem, Header } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
