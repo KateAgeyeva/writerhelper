@@ -1,7 +1,5 @@
-//useReducer insted of useState;
 import React, { useState } from "react";
-import { Input } from 'react-native-elements';
-import { StyleSheet, View
+import { StyleSheet
   // KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard  
 } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';

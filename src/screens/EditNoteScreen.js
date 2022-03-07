@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Button, Input } from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import { StyleSheet } from "react-native";
 import { useSelector } from 'react-redux';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

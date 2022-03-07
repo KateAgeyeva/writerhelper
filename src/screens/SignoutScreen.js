@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from 'react-native';
-import { Button } from "react-native-elements";
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import AsyncStorage from '@react-native-async-storage/async-storage';

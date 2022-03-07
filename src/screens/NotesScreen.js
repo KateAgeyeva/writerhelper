@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, ListItem } from 'react-native-elements';
-import { Text, StyleSheet, FlatList, TouchableOpacity, Alert, View } from "react-native";
+import { ListItem } from 'react-native-elements';
+import { StyleSheet, FlatList, TouchableOpacity, Alert, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,7 +8,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import bookApi from '../api/index';
 import { fetch_notes, delete_note } from "../store/noteSlice";
-import Spacer from "../components/Spacer";
 import SubmitBtn from "../components/SubmitBtn";
 
 const NotesScreen = ({ navigation, route }) => {

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Text } from 'react-native-elements';
 import { StyleSheet, TouchableOpacity, View, FlatList, Alert, LogBox, Platform  } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
-import { ListItem, Input } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';

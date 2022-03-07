@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Input } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { StyleSheet, View } from "react-native";
 import { useSelector } from 'react-redux';
 import { SafeAreaProvider } from "react-native-safe-area-context";
