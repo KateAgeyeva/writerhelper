@@ -33,7 +33,7 @@ const NewChapterScreen = ({ navigation, route }) => {
       <KeyboardAwareScrollView>
         <SafeAreaProvider>
           <Spacer />
-          <ChapterInput labelName='Name' labelDescription='Description' labelText='Characters' nameText={chapterName} descriptionText={chapterDescription} textText={chapterText} nameChange={(text) => setChapterName(text)} descriptionChange={(text) => setChapterDescription(text)} textChange={(text) => setChapterText(text)} />
+          <ChapterInput labelName='Name' labelDescription='Description' labelText='Text' nameText={chapterName} descriptionText={chapterDescription} textText={chapterText} nameChange={(text) => setChapterName(text)} descriptionChange={(text) => setChapterDescription(text)} textChange={(text) => setChapterText(text)} />
           <SubmitBtn btnText="Save" onSubmit={() => createChapter(id)} />
         </SafeAreaProvider>
       </KeyboardAwareScrollView>
