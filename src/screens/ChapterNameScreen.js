@@ -3,6 +3,7 @@ import { Text } from 'react-native-elements';
 import { StyleSheet, View } from "react-native";
 import { useSelector } from 'react-redux';
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Spacer from "../components/Spacer";
 import bookApi from '../api/index';
@@ -36,33 +37,35 @@ const ChapterNameScreen = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaProvider>
-      <Spacer />
-      {editChapter && (
-        <View>
-          <ChapterInput labelName='Name' labelDescription='Description' labelText='Characters' nameText={editName} descriptionText={editDescription} textText={editText} nameChange={setEditName} descriptionChange={setEditDescription} textChange={setEditText} />
-          <SubmitBtn
-            btnText="Save"
-            onSubmit={() => updateChapter(bookId, _id)}
-          />
-          <CancelBtn btnText="Cancel" onSubmit={() => setEditChapter(false)} />
-        </View>
-      )}
-      {!editChapter && (
-        <View>
-          <Text style={styles.chapterName} h4>
-            {name}
-          </Text>
-          <Spacer />
-          <Text style={styles.chapterLableFont}>Description:</Text>
-          <Text style={styles.chapterFieldsFont}>{description}</Text>
-          <Text style={styles.chapterLableFont}>Text:</Text>
-          <Text style={styles.chapterFieldsFont}>{text}</Text>
-          <Spacer />
-          <SubmitBtn btnText="Edit" onSubmit={() => setEditChapter(true)} />
-        </View>
-      )}
-    </SafeAreaProvider>
+    <KeyboardAwareScrollView>
+      <SafeAreaProvider>
+        <Spacer />
+        {editChapter && (
+          <View>
+            <ChapterInput labelName='Name' labelDescription='Description' labelText='Text' nameText={editName} descriptionText={editDescription} textText={editText} nameChange={setEditName} descriptionChange={setEditDescription} textChange={setEditText} />
+            <SubmitBtn
+              btnText="Save"
+              onSubmit={() => updateChapter(bookId, _id)}
+            />
+            <CancelBtn btnText="Cancel" onSubmit={() => setEditChapter(false)} />
+          </View>
+        )}
+        {!editChapter && (
+          <View>
+            <Text style={styles.chapterName} h4>
+              {name}
+            </Text>
+            <Spacer />
+            <Text style={styles.chapterLableFont}>Description:</Text>
+            <Text style={styles.chapterFieldsFont}>{description}</Text>
+            <Text style={styles.chapterLableFont}>Text:</Text>
+            <Text style={styles.chapterFieldsFont}>{text}</Text>
+            <Spacer />
+            <SubmitBtn btnText="Edit" onSubmit={() => setEditChapter(true)} />
+          </View>
+        )}
+      </SafeAreaProvider>
+    </KeyboardAwareScrollView>
   );
 };
 
