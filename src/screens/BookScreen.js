@@ -8,6 +8,8 @@ import { ListItem } from "react-native-elements";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 import bookApi from '../api/index';
 import Spacer from "../components/Spacer";
@@ -41,6 +43,19 @@ const BookScreen = ({ navigation, route }) => {
     const response = await bookApi.get(`/books/${id}/chapters`);
     dispatch(fetch_chapters(response.data));
     setIsLoading(true);
+  };
+
+  const shareBook = async () => {
+    const fileShareSchema = stateCh.map((chapter) => {
+      return {
+        Name: chapter.chapterName,
+        Description: chapter.chapterDescription,
+        Text: chapter.chapterText
+      }
+    })
+    await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + `MyBook.docx`, JSON.stringify(fileShareSchema));
+    const { uri } = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}/MyBook.docx`);
+    Sharing.shareAsync(uri);
   };
 
   const deleteBook = async (id) => {
@@ -203,6 +218,12 @@ const BookScreen = ({ navigation, route }) => {
           <Text
             style={{ color: "blue", alignSelf: "center" }}
           >{`Delete "${name}"`}</Text>
+        </TouchableOpacity>
+        <Spacer />
+        <TouchableOpacity onPress={() => shareBook()}>
+          <Text
+            style={{ color: "blue", alignSelf: "center" }}
+          >{`Share "${name}"`}</Text>
         </TouchableOpacity>
         <Spacer />
       </SafeAreaProvider>

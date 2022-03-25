@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Text } from 'react-native-elements';
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useSelector } from 'react-redux';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 import Spacer from "../components/Spacer";
 import bookApi from '../api/index';
@@ -34,7 +36,14 @@ const ChapterNameScreen = ({ navigation, route }) => {
     });
     alert('Changes Saved');
     navigation.navigate('Book', { _id: bookId });
-  }
+  };
+
+  const shareChapter = async () => {
+    const fileShareSchema = chapter.chapterText;
+    await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + `MyChapter.docx`, JSON.stringify(fileShareSchema));
+    const { uri } = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}/MyChapter.docx`);
+    Sharing.shareAsync(uri);
+  };
 
   return (
     <KeyboardAwareScrollView>
@@ -42,12 +51,25 @@ const ChapterNameScreen = ({ navigation, route }) => {
         <Spacer />
         {editChapter && (
           <View>
-            <ChapterInput labelName='Name' labelDescription='Description' labelText='Text' nameText={editName} descriptionText={editDescription} textText={editText} nameChange={setEditName} descriptionChange={setEditDescription} textChange={setEditText} />
+            <ChapterInput
+              labelName="Name"
+              labelDescription="Description"
+              labelText="Text"
+              nameText={editName}
+              descriptionText={editDescription}
+              textText={editText}
+              nameChange={setEditName}
+              descriptionChange={setEditDescription}
+              textChange={setEditText}
+            />
             <SubmitBtn
               btnText="Save"
               onSubmit={() => updateChapter(bookId, _id)}
             />
-            <CancelBtn btnText="Cancel" onSubmit={() => setEditChapter(false)} />
+            <CancelBtn
+              btnText="Cancel"
+              onSubmit={() => setEditChapter(false)}
+            />
           </View>
         )}
         {!editChapter && (
@@ -64,6 +86,13 @@ const ChapterNameScreen = ({ navigation, route }) => {
             <SubmitBtn btnText="Edit" onSubmit={() => setEditChapter(true)} />
           </View>
         )}
+        <Spacer />
+        <TouchableOpacity onPress={() => shareChapter()}>
+          <Text style={{ color: "blue", alignSelf: "center" }}>
+            Share the chapter
+          </Text>
+        </TouchableOpacity>
+        <Spacer />
       </SafeAreaProvider>
     </KeyboardAwareScrollView>
   );
